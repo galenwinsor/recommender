@@ -1,0 +1,74 @@
+train_candidates_unequal:
+    female: 0.0 male: 0.48
+    female: 0.0 male: 0.61
+    female: 0.0 male: 0.48
+    female: 0.0 male: 0.32
+    female: 0.0 male: 0.57
+Clearly, there is a bias favouring male candidates - no females were hired each time!
+
+train_candidates_equal:
+    female: 0.03 male: 0.03
+    female: 0.04 male: 0.04
+    female: 0.01 male: 0.01
+    female: 0.03 male: 0.03
+    female: 0.06 male: 0.07
+Here, the bias is almost non-existent
+
+The dataset used for training contains within it the biases that the original hiring managers had. So if our training
+data is very biased, then the decision trees made by the algorithm will reflect those biases.
+
+The recommender system could either be improved by changing the training data or the algorithm itself. The company could
+remove gender as an attribute in the training set, or run tests on training sets to detect bias based on gender in order
+to rule out certain data sets. Or, instead of learning based on previous hiring practices, the algorithm could learn
+based on a set of "ideal" candidates with the kinds of skills the company is looking for and bad candidates who have
+resumes the company wants to avoid. The algorithm could also be augmented to actively report when one attribute, like
+gender, contributes disproportionately to its decision.
+
+The earlier the algorithm chooses to split based on gender, the more biased the outcome (assuming it's using a biased
+dataset). We can assume that the other candidate attributes are similarly distributed between men and women. Thus, if
+the system splits on gender deep in the tree, then female candidates with good resumes are able to traverse farther
+along hirable paths than if the system splits on gender early.
+
+The variance occurs because of the random choice of attribute to split on. However, even if we chose the same attribute
+every time, we would not eliminate the bias, because gender still plays a disproportionate role in the decision.
+
+Most of the responsibility of the hiring system should fall on the hiring manager, who can outline strict policies of
+fairness and equality in the hiring process. The engineers then have a responsibility to carry out these policies. The
+algorithm itself only perpetuates injustice; it does not cause it.
+
+Correlated:
+female: 0.31 male: 0.35
+female: 0.11 male: 0.2
+female: 0.27 male: 0.29
+female: 0.14 male: 0.33
+female: 0.11 male: 0.22
+There is clearly still bias.
+
+A company should consider the number of applicants it has to process. If the number is large, it might be more efficient
+and even fair to use an algorithm. The company should also consider the kinds of skills it's looking for. More highly
+skilled applicants with complex resumes may not work as well with algorithms, while low-skilled workers with relatively
+few resume fields might work better.
+
+Yes, the programmer absolutely has a responsibility to prevent harmful uses of their code. This should be a natural part
+of taking pride in and ownership of one's work. One idea, as mentioned before, is to include more "meta" features in the
+algorithm, like one that reports how important each attribute was in the decision.
+
+DESCRIPTION OF CODE:
+
+Our recommender system has a class for datasets which defines a dataset object for the recommender to be called on. A
+dataset has a list of data, which are each of type IAttributeDatum, an interface provided in the source code. The
+dataset also has a list of attributes, which are the attributes of the data type in the dataset.
+
+The Leaf and Node classes define the structure of a decision tree. A node has an attribute, a list of children, which
+are the nodes connected to the current node, a list of edges, which are values corresponding to the children, and the
+most common value for the target attribute in the decision tree. A leaf contains a value. If a search through the
+decision tree reaches that leaf, it terminates and returns the value in the leaf as the found decision.
+
+The TreeGenerator class generates a decision tree of nodes and leaves using a dataset and a target attribute in that
+dataset. It has a dataset, and a starting node, which is initialized when the tree is built. The TreeGenerator class can
+also be given a datum of the same type in the tree's dataset, and will return the recommended value for the tree's
+target attribute.
+
+The Vegetable and Candidate classes both implement IAttributeDatum, and are examples of possible data.
+
+
