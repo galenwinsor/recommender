@@ -1,4 +1,7 @@
-DESCRIPTION OF CODE:
+# Recommender
+A supervised machine learning program that can be used to make recommendations based on a training dataset, i.e., whether you'll like a new food based on your previous preferences. 
+
+## High-level description
 
 Our recommender system has a class for datasets which defines a dataset object for the recommender to be called on. A
 dataset has a list of data, which are each of type IAttributeDatum, an interface provided in the source code. The
